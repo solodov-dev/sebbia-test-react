@@ -26,7 +26,7 @@ class Categories extends React.Component {
             <li onClick={() => this.setState({selectedCategory: category.id})}>{category.name}</li>
           ))}
         </ul>
-        <NewsList id={this.state.selectedCategory}/>
+        <NewsList id={this.state.selectedCategory} />
       </React.Fragment>
     );
   }

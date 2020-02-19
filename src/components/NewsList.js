@@ -7,6 +7,7 @@ class NewsList extends React.Component {
     super(props);
     this.state = {
       page: 0,
+      previousId: this.props.id,
       news: [],
     };
   }
@@ -17,6 +18,15 @@ class NewsList extends React.Component {
 
   componentDidMount() {
     this.getNews();
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if(props.id !== state.previousId) {
+      return {
+        page: 0
+      }
+    }
+    return null;
   }
 
   getNews = () => {
@@ -52,12 +62,7 @@ class NewsList extends React.Component {
         {this.state.news.map(item => (
           <ul>
             <li>
-              <NewsCard
-                id={item.id}
-                title={item.title}
-                date={item.date}
-                shortDescription={item.shortDescription}
-              />
+              <NewsCard item={item} />
             </li>
           </ul>
         ))}

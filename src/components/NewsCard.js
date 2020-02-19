@@ -8,17 +8,17 @@ export default function NewsCard(props) {
         to={{
           pathname: '/news/details',
           state: {
-            id: props.id,
-            title: props.title,
-            date: props.date,
-            shortDescription: props.shortDescription,
+            id: props.item.id,
+            title: props.item.title,
+            date: props.item.date,
+            shortDescription: props.item.shortDescription,
           },
         }}
       >
-        {props.title}
+        {props.item.title}
       </Link>
-      <p>{new Date(props.date).toLocaleDateString()}</p>
-      <p>{props.shortDescription}</p>
+      <p>{new Date(props.item.date).toLocaleDateString()}</p>
+      <p>{props.item.shortDescription}</p>
     </div>
   );
 }
