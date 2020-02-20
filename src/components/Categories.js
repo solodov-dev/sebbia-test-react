@@ -1,35 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NewsList from './NewsList';
 
-class Categories extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categories: [],
-      selectedCategory: 0,
-    };
-  }
+function Categories() {
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
-  componentDidMount() {
+  useEffect(() => {
     axios
       .get('https://testtask.sebbia.com/v1/news/categories')
-      .then(res => this.setState({ categories: res.data.list }))
+      .then(res => setCategories(res.data.list))
       .catch(err => console.log(err));
-  }
+  });
 
-  render() {
-    return (
-      <React.Fragment>
-        <ul>
-          {this.state.categories.map(category => (
-            <li onClick={() => this.setState({selectedCategory: category.id})}>{category.name}</li>
-          ))}
-        </ul>
-        <NewsList id={this.state.selectedCategory} />
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <ul>
+        {categories.map(category => (
+          <li onClick={() => setSelectedCategory(category.id)}>
+            {category.name}
+          </li>
+        ))}
+      </ul>
+      <NewsList id={selectedCategory} />
+    </React.Fragment>
+  );
 }
 
 export default Categories;

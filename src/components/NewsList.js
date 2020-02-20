@@ -21,10 +21,10 @@ class NewsList extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if(props.id !== state.previousId) {
+    if (props.id !== state.previousId) {
       return {
-        page: 0
-      }
+        page: 0,
+      };
     }
     return null;
   }
