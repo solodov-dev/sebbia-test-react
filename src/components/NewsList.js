@@ -29,10 +29,10 @@ function NewsList(props) {
         <button onClick={() => setPage(page + 1)}>Вперед</button>
       )}
       {page > 0 && <button onClick={() => setPage(page - 1)}>Назад</button>}
-      {news.map(item => (
+      {news.map(article => (
         <ul>
           <li>
-            <NewsCard item={item} />
+            <NewsCard article={article} />
           </li>
         </ul>
       ))}

@@ -2,23 +2,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function NewsCard(props) {
+  const article = props.article;
   return (
     <div className="card">
       <Link
         to={{
           pathname: '/news/details',
           state: {
-            id: props.item.id,
-            title: props.item.title,
-            date: props.item.date,
-            shortDescription: props.item.shortDescription,
+            id: article.id,
+            title: article.title,
+            date: article.date,
+            shortDescription: article.shortDescription,
           },
         }}
       >
-        {props.item.title}
+        {article.title}
       </Link>
-      <p>{new Date(props.item.date).toLocaleDateString()}</p>
-      <p>{props.item.shortDescription}</p>
+      <p>{new Date(article.date).toLocaleDateString()}</p>
+      <p>{article.shortDescription}</p>
     </div>
   );
 }
