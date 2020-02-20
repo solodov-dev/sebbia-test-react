@@ -19,7 +19,8 @@ function NewsList(props) {
       .get(
         `https://testtask.sebbia.com/v1/news/categories/${props.id}/news?page=${page}`
       )
-      .then(res => setNews(res.data.list));
+      .then(res => setNews(res.data.list))
+      .catch(err => console.log(err));
   });
 
   return (
