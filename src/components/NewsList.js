@@ -1,74 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NewsCard from './NewsCard';
 
-class NewsList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      page: 0,
-      previousId: this.props.id,
-      news: [],
-    };
-  }
+function NewsList(props) {
+  const [page, setPage] = useState(0);
+  const [news, setNews] = useState([]);
+  const [prevId, setPrevId] = useState(props.id);
 
-  componentDidUpdate() {
-    this.getNews();
-  }
-
-  componentDidMount() {
-    this.getNews();
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.id !== state.previousId) {
-      return {
-        page: 0,
-      };
+  useEffect(() => {
+    if (props.id !== prevId) {
+      setPrevId(props.id);
+      setPage(0);
     }
-    return null;
-  }
+  }, [props.id, page, prevId]);
 
-  getNews = () => {
+  useEffect(() => {
     axios
       .get(
-        `https://testtask.sebbia.com/v1/news/categories/${this.props.id}/news?page=${this.state.page}`
+        `https://testtask.sebbia.com/v1/news/categories/${props.id}/news?page=${page}`
       )
-      .then(res => this.setState({ news: res.data.list }));
-  };
+      .then(res => setNews(res.data.list));
+  });
 
-  flipPage = num => {
-    let page = this.state.page + num;
-    this.setState({ page: page });
-  };
-
-  getBackButton = () => {
-    if (this.state.news.length === 10) {
-      return <button onClick={() => this.flipPage(1)}>Вперед</button>;
-    }
-  };
-
-  getForwardButton = () => {
-    if (this.state.page > 0) {
-      return <button onClick={() => this.flipPage(-1)}>Назад</button>;
-    }
-  };
-
-  render() {
-    return (
-      <React.Fragment>
-        {this.getBackButton()}
-        {this.getForwardButton()}
-        {this.state.news.map(item => (
-          <ul>
-            <li>
-              <NewsCard item={item} />
-            </li>
-          </ul>
-        ))}
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      {news.length === 10 && (
+        <button onClick={() => setPage(page + 1)}>Вперед</button>
+      )}
+      {page > 0 && <button onClick={() => setPage(page - 1)}>Назад</button>}
+      {news.map(item => (
+        <ul>
+          <li>
+            <NewsCard item={item} />
+          </li>
+        </ul>
+      ))}
+    </React.Fragment>
+  );
 }
 
 export default NewsList;
